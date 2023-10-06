@@ -1,0 +1,54 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "e4160396-3373-4cb4-8607-8adfa4870999",
+  "packageName": "com.microsoft.teams.extension",
+  "developer": {
+    "name": "Teams App, Inc.",
+    "websiteUrl": "https://www.example.com",
+    "privacyUrl": "https://www.example.com/privacy",
+    "termsOfUseUrl": "https://www.example.com/termsofuse"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "GitHub Connector Admin-dev",
+    "full": "GitHub Connector Admin"
+  },
+  "description": {
+    "short": "Implements simplified admin experience for GitHub connector",
+    "full": "Implements simplified admin experience for GitHub connector"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [],
+  "composeExtensions": [],
+  "staticTabs": [
+    {
+      "entityId": "index0",
+      "name": "Personal Tab",
+      "contentUrl": "https://contoso.com/tab",
+      "websiteUrl": "https://contoso.com/tab",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "contoso.com"
+  ],
+  "showLoadingIndicator": false,
+  "webApplicationInfo": {
+    "id": "YOUR_CLIENT_ID_HERE",
+    "resource": ""
+  },
+  "graphConnector": {
+    "notificationUrl": "YOUR_DEV_TUNNEL_URL_HERE"
+  }
+}

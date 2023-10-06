@@ -1,0 +1,62 @@
+{
+  "type": "AdaptiveCard",
+  "version": "1.3",
+  "body": [
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "Image",
+              "url": "${icon}",
+              "size": "Small",
+              "horizontalAlignment": "Center",
+              "altText": "Result logo"
+            }
+          ],
+          "height": "stretch"
+        },
+        {
+          "type": "Column",
+          "width": "stretch",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "[${title}](${issueUrl})",
+              "color": "Accent",
+              "size": "Medium",
+              "weight": "Bolder",
+              "maxLines": 3
+            },
+            {
+              "type": "TextBlock",
+              "spacing": "Small",
+              "$when": "${title!='' && title!=''}",
+              "text": "${issueUrl}",
+              "color": "Dark"
+            },
+            {
+              "type": "TextBlock",
+              "text": "${body}",
+              "wrap": true,
+              "maxLines": 3,
+              "height": "stretch",
+              "spacing": "Small"
+            },
+            {
+              "type": "TextBlock",
+              "text": "**State:** ${state} | **Assignees:** ${assignees} | **Labels:** ${labels} ",
+              "height": "stretch"
+            }
+          ],
+          "horizontalAlignment": "Center",
+          "spacing": "Medium"
+        }
+      ]
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
