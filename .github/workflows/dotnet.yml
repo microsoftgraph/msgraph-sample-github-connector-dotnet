@@ -10,7 +10,7 @@ jobs:
   build:
     defaults:
       run:
-        working-directory: /src
+        working-directory: src
     runs-on: ubuntu-latest
 
     steps:
