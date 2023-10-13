@@ -1,0 +1,70 @@
+[
+  {
+    "name": "msgraph-sample-github-connector-dotnet",
+    "source": "microsoftgraph",
+    "title": "Ingest GitHub repositories and issues using .NET and C#",
+    "shortDescription": "This samples contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization.",
+    "url": "https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet",
+    "downloadUrl": "https://pnp.github.io/download-partial/?url=https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet",
+    "longDescription": [
+      "This samples contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization."
+    ],
+    "creationDateTime": "2023-10-06",
+    "updateDateTime": "2023-10-13",
+    "products": [
+      "Microsoft Graph connectors",
+      "Microsoft Graph"
+    ],
+    "metadata": [
+      {
+        "key": "PLATFORM",
+        "value": ".NET"
+      },
+      {
+        "key": "LANGUAGE",
+        "value": "C#"
+      },
+      {
+        "key": "SEARCH-RESULTS-CARD",
+        "value": "Yes"
+      },
+      {
+        "key": "TEAMS-PACKAGE",
+        "value": "No"
+      }
+    ],
+    "thumbnails": [
+      {
+        "type": "image",
+        "order": 100,
+        "url": "https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet/raw/main/assets/repos.png",
+        "alt": "GitHub repositories displayed in Microsoft Search search results, visualized using a custom Adaptive Card"
+      },
+      {
+        "type": "image",
+        "order": 200,
+        "url": "https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet/raw/main/assets/issues.png",
+        "alt": "GitHub issues displayed in Microsoft Search search results, visualized using a custom Adaptive Card"
+      }
+    ],
+    "authors": [
+      {
+        "gitHubAccount": "jasonjoh",
+        "pictureUrl": "https://github.com/jasonjoh.png",
+        "name": "Jason Johnston"
+      }
+    ],
+    "references": [
+      {
+        "name": "Microsoft Graph connectors overview",
+        "description": "Learn more what Microsoft Graph connectors are and when you'd use them.",
+        "url": "https://learn.microsoft.com/graph/connecting-external-content-connectors-overview"
+      },
+      {
+        "name": "Build your first custom Microsoft Graph connector",
+        "description": "Learn how to build your first custom Microsoft Graph connector using .NET.",
+        "url": "https://learn.microsoft.com/graph/connecting-external-content-build-quickstart"
+      }
+    ]
+  }
+]
