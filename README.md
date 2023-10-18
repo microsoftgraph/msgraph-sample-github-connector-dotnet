@@ -5,6 +5,7 @@ products:
 - ms-graph
 - microsoft-graph-connectors-api
 - github
+- microsoft-365-copilot
 languages:
 - csharp
 ---
