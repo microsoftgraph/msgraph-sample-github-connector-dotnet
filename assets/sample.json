@@ -1,6 +1,6 @@
 [
   {
-    "name": "msgraph-sample-github-connector-dotnet",
+    "name": "msgraph-sample-github-graph-connector-dotnet",
     "source": "microsoftgraph",
     "title": "Ingest GitHub repositories and issues using .NET and C#",
     "shortDescription": "This samples contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization.",
