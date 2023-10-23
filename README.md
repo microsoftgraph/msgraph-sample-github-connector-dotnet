@@ -214,21 +214,6 @@ In this step, you will create search verticals and result types to customize the
 1. Select **Add Vertical**
 1. Select **Enable vertical**, then select **Done**.
 
-### Create result type
-
-Result types define an Adaptive Card template, specifying how the property values from the external item should be displayed in the result preview. As a user performs a search, the property values are inserted into the Adaptive Card template and rendered in the search results, allowing for customization of search results and an engaging user experience.
-
-1. Sign into the [Microsoft 365 admin center](https://admin.microsoft.com/) by using the global administrator role.
-1. Select **Settings** > **Search & intelligence** > **Customizations**.
-1. Select **Result types**, then select **Add**.
-1. Enter a name in the Name field. Select **Next**.
-1. On the **Content source** page, select the connection you created previously. Select **Next**.
-1. On the **Rules** page, select Next.
-1. On the **Design your layout** page, paste JSON from the appropriate file in the [result-cards](./result-cards/) folder into layout, then select **Next**.
-    - If the connection ingests GitHub issues, use [result-typeIssues.json](./result-cards/result-typeIssues.json).
-    - If the connection ingests GitHub repositories, use [result-typeRepos.json](./result-cards/result-typeRepos.json).
-1. Select **Add result type**.
-
 > [!NOTE]
 > It may take a few hours before your new vertical shows up in Microsoft Search.
 

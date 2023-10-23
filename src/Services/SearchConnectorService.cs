@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Text.Json;
 using Azure.Identity;
 using GitHubConnector.Middleware;
 using Microsoft.Graph;
@@ -107,7 +108,7 @@ public class SearchConnectorService
     /// <param name="connectorTicket">The connector ticket when creating a connection from an M365 app.</param>
     /// <param name="connectorId">The connector ID when creating a connection from an M365 app.</param>
     /// <returns>The new <see cref="ExternalConnection"/>.</returns>
-    public Task<ExternalConnection?> CreateConnectionAsync(
+    public async Task<ExternalConnection?> CreateConnectionAsync(
         string connectionId,
         string name,
         string? description,
@@ -115,6 +116,11 @@ public class SearchConnectorService
         string? connectorTicket = null,
         string? connectorId = null)
     {
+        // Load the appropriate adaptive card for the search result template
+        var resultCardJsonFile = itemType == "issues" ?
+            "./result-cards/result-typeIssues.json" :
+            "./result-cards/result-typeRepos.json";
+
         var newConnection = new ExternalConnection
         {
             Id = connectionId,
@@ -138,6 +144,21 @@ public class SearchConnectorService
                     },
                 },
             },
+            SearchSettings = new()
+            {
+                SearchResultTemplates = new()
+                {
+                    new()
+                    {
+                        Id = itemType == "issues" ? "issueDisplay" : "repoDisplay",
+                        Priority = 1,
+                        Layout = new()
+                        {
+                            AdditionalData = await GetResultTemplateAsync(resultCardJsonFile),
+                        },
+                    },
+                },
+            },
         };
 
         // Only send the M365 app properties (ConnectorId and GraphConnectors-Ticket header)
@@ -151,7 +172,7 @@ public class SearchConnectorService
             newConnection.ConnectorId = connectorId;
         }
 
-        return graphClient.External.Connections.PostAsync(newConnection, (config) =>
+        return await graphClient.External.Connections.PostAsync(newConnection, (config) =>
         {
             if (useM365Properties)
             {
@@ -220,8 +241,8 @@ public class SearchConnectorService
     /// <param name="connectionId">The connection ID of the connection that contains the item.</param>
     /// <param name="itemId">The item ID of the item to update.</param>
     /// <param name="activities">The list of activities to add to the item.</param>
-    /// <returns>The <see cref="AddActivitiesResponse"/>.</returns>
-    public async Task<AddActivitiesResponse?> AddIssueActivitiesAsync(
+    /// <returns>The <see cref="AddActivitiesPostResponse"/>.</returns>
+    public async Task<AddActivitiesPostResponse?> AddIssueActivitiesAsync(
         string connectionId,
         string itemId,
         List<ExternalActivity> activities)
@@ -237,7 +258,7 @@ public class SearchConnectorService
                 .Connections[connectionId]
                 .Items[itemId]
                 .MicrosoftGraphExternalConnectorsAddActivities
-                .PostAsync(addActivitiesRequest);
+                .PostAsAddActivitiesPostResponseAsync(addActivitiesRequest);
         }
 
         return null;
@@ -260,5 +281,12 @@ public class SearchConnectorService
             Type = IdentityType.User,
             Id = placeholderUserId,
         });
+    }
+
+    private async Task<Dictionary<string, object>> GetResultTemplateAsync(string resultCardJsonFile)
+    {
+        var cardContents = await File.ReadAllTextAsync(resultCardJsonFile);
+        return JsonSerializer.Deserialize<Dictionary<string, object>>(cardContents) ??
+            throw new Exception($"Could not deserialize contents of {resultCardJsonFile}");
     }
 }
