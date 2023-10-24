@@ -13,10 +13,14 @@
     <None Include="appsettings*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)result-cards/*.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)result-cards/*.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +29,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Graph.Beta" Version="5.50.0-preview" />
+    <PackageReference Include="Microsoft.Graph.Beta" Version="5.52.0-preview" />
     <PackageReference Include="Octokit" Version="8.1.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.507">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
