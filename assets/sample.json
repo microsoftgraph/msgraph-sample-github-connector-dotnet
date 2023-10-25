@@ -3,11 +3,11 @@
     "name": "msgraph-sample-github-graph-connector-dotnet",
     "source": "microsoftgraph",
     "title": "Ingest GitHub repositories and issues using .NET and C#",
-    "shortDescription": "This samples contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization.",
+    "shortDescription": "This sample contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization.",
     "url": "https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet",
     "downloadUrl": "https://pnp.github.io/download-partial/?url=https://github.com/microsoftgraph/msgraph-sample-github-connector-dotnet",
     "longDescription": [
-      "This samples contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization."
+      "This sample contains a Microsoft Graph connector that shows how to ingest GitHub repositories and issues. The ingested content is set to be visible to everyone in the organization."
     ],
     "creationDateTime": "2023-10-06",
     "updateDateTime": "2023-10-13",
