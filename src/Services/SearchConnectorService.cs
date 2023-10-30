@@ -5,11 +5,8 @@ using System.Text.Json;
 using Azure.Identity;
 using GitHubConnector.Middleware;
 using Microsoft.Graph;
-
-// Using beta SDK to get access to the iconUrl value in the labels enum
-using Microsoft.Graph.Beta;
-using Microsoft.Graph.Beta.External.Connections.Item.Items.Item.MicrosoftGraphExternalConnectorsAddActivities;
-using Microsoft.Graph.Beta.Models.ExternalConnectors;
+using Microsoft.Graph.External.Connections.Item.Items.Item.MicrosoftGraphExternalConnectorsAddActivities;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Kiota.Authentication.Azure;
 
 namespace GitHubConnector.Services;

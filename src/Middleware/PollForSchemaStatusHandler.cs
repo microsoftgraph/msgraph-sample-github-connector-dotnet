@@ -4,7 +4,7 @@
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.Graph;
-using Microsoft.Graph.Beta.Models.ExternalConnectors;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Microsoft.Kiota.Abstractions.Serialization;
 
 namespace GitHubConnector.Middleware;

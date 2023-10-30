@@ -7,8 +7,8 @@ using GitHubConnector.Extensions;
 using GitHubConnector.Models;
 using GitHubConnector.Services;
 using Microsoft.Graph;
-using Microsoft.Graph.Beta.Models.ExternalConnectors;
-using Microsoft.Graph.Beta.Models.ODataErrors;
+using Microsoft.Graph.Models.ExternalConnectors;
+using Microsoft.Graph.Models.ODataErrors;
 using Octokit;
 
 // Pass this option to run in simplified admin mode.

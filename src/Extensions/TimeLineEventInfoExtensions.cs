@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using GitHubConnector.Services;
-using Microsoft.Graph.Beta.Models.ExternalConnectors;
+using Microsoft.Graph.Models.ExternalConnectors;
 using Octokit;
 
 namespace GitHubConnector.Extensions;

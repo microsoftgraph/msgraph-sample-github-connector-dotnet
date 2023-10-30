@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Graph.Beta.Models.ExternalConnectors;
+using Microsoft.Graph.Models.ExternalConnectors;
 
 namespace GitHubConnector;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Microsoft.Graph.Beta.Models;
+using Microsoft.Graph.Models;
 using Microsoft.Kiota.Abstractions.Serialization;
 
 namespace GitHubConnector.Models;
