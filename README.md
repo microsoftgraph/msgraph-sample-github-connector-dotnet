@@ -4,7 +4,6 @@ description: This sample demonstrates how to use the Microsoft Graph connector A
 products:
 - ms-graph
 - microsoft-graph-connectors-api
-- microsoft-365-copilot
 - github
 languages:
 - csharp
