@@ -70,6 +70,31 @@ public class RepositoryService
     }
 
     /// <summary>
+    /// Gets comments for an issue.
+    /// </summary>
+    /// <param name="issueNumber">The issue number of the issue.</param>
+    /// <param name="retries">The number of times to retry if a rate limit error is received.</param>
+    /// <returns>The list of comments.</returns>
+    public async Task<IReadOnlyList<IssueComment>> GetCommentsForIssueWithRetryAsync(int issueNumber, int retries)
+    {
+        try
+        {
+            return await gitHubClient.Issue.Comment.GetAllForIssue(gitHubOwner, gitHubRepo, issueNumber);
+        }
+        catch (RateLimitExceededException ex)
+        {
+            if (retries > 0)
+            {
+                Console.WriteLine($"Rate limit exceeded - waiting for {ex.GetRetryAfterTimeSpan().TotalSeconds} seconds. {retries} retries remaining.");
+                await Task.Delay(ex.GetRetryAfterTimeSpan());
+                return await GetCommentsForIssueWithRetryAsync(issueNumber, --retries);
+            }
+
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Gets timeline events for an issue.
     /// </summary>
     /// <param name="issueNumber">The issue number of the issue.</param>
