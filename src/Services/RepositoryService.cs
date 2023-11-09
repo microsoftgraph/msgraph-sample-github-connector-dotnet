@@ -51,6 +51,16 @@ public class RepositoryService
     }
 
     /// <summary>
+    /// Gets the preferred README for a repository.
+    /// </summary>
+    /// <param name="repository">The <see cref="Repository"/> to get the README from.</param>
+    /// <returns>The <see cref="Readme"/>.</returns>
+    public Task<Readme> GetReadmeAsync(Repository repository)
+    {
+        return gitHubClient.Repository.Content.GetReadme(repository.Id);
+    }
+
+    /// <summary>
     /// Gets a list of issues for the repository specified in app settings.
     /// </summary>
     /// <returns>The list of issues.</returns>

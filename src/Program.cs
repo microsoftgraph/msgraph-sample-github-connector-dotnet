@@ -432,14 +432,14 @@ static async Task PushAllRepositoriesAsync(
 
         if (repository.Visibility == RepositoryVisibility.Public)
         {
-            // Get the HTML content for the repo
-            var response = await httpClient.GetAsync(repository.HtmlUrl);
-            if (response.IsSuccessStatusCode)
+            // Get the README for the repo
+            var readme = await repoService.GetReadmeAsync(repository);
+            if (readme != null)
             {
                 repoItem.Content = new()
                 {
-                    Type = ExternalItemContentType.Html,
-                    Value = await response.Content.ReadAsStringAsync(),
+                    Type = ExternalItemContentType.Text,
+                    Value = Markdig.Markdown.ToPlainText(readme.Content),
                 };
             }
         }
