@@ -51,12 +51,47 @@ public class RepositoryService
     }
 
     /// <summary>
+    /// Gets the preferred README for a repository.
+    /// </summary>
+    /// <param name="repository">The <see cref="Repository"/> to get the README from.</param>
+    /// <returns>The <see cref="Readme"/>.</returns>
+    public Task<Readme> GetReadmeAsync(Repository repository)
+    {
+        return gitHubClient.Repository.Content.GetReadme(repository.Id);
+    }
+
+    /// <summary>
     /// Gets a list of issues for the repository specified in app settings.
     /// </summary>
     /// <returns>The list of issues.</returns>
     public Task<IReadOnlyList<Issue>> GetIssuesForRepositoryAsync()
     {
         return gitHubClient.Issue.GetAllForRepository(gitHubOwner, gitHubRepo);
+    }
+
+    /// <summary>
+    /// Gets comments for an issue.
+    /// </summary>
+    /// <param name="issueNumber">The issue number of the issue.</param>
+    /// <param name="retries">The number of times to retry if a rate limit error is received.</param>
+    /// <returns>The list of comments.</returns>
+    public async Task<IReadOnlyList<IssueComment>> GetCommentsForIssueWithRetryAsync(int issueNumber, int retries)
+    {
+        try
+        {
+            return await gitHubClient.Issue.Comment.GetAllForIssue(gitHubOwner, gitHubRepo, issueNumber);
+        }
+        catch (RateLimitExceededException ex)
+        {
+            if (retries > 0)
+            {
+                Console.WriteLine($"Rate limit exceeded - waiting for {ex.GetRetryAfterTimeSpan().TotalSeconds} seconds. {retries} retries remaining.");
+                await Task.Delay(ex.GetRetryAfterTimeSpan());
+                return await GetCommentsForIssueWithRetryAsync(issueNumber, --retries);
+            }
+
+            throw;
+        }
     }
 
     /// <summary>

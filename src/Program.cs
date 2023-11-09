@@ -367,19 +367,34 @@ static async Task PushAllIssuesWithActivitiesAsync(
         }
 
         events = events ?? new List<TimelineEventInfo>();
+
+        IReadOnlyList<IssueComment>? comments = null;
+        try
+        {
+            comments = await repoService.GetCommentsForIssueWithRetryAsync(issue.Number, 3);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error getting comments for issue #{issue.Number}: {ex.Message}");
+        }
+
+        comments = comments ?? new List<IssueComment>();
+
         var issueItem = await issue.ToExternalItem(events, connectorService);
 
-        // Read the HTML content for the issue, use this to
-        // set the content for the item.
-        var response = await httpClient.GetAsync(issue.HtmlUrl);
-        if (response.IsSuccessStatusCode)
+        // Generate content for the issue by concatenating the
+        // body of the issue + all comments
+        var issueContent = Markdig.Markdown.ToPlainText(issue.Body ?? string.Empty);
+        foreach (var comment in comments)
         {
-            issueItem.Content = new()
-            {
-                Type = ExternalItemContentType.Html,
-                Value = await response.Content.ReadAsStringAsync(),
-            };
+            issueContent += $"{Environment.NewLine}{Markdig.Markdown.ToPlainText(comment.Body ?? string.Empty)}";
         }
+
+        issueItem.Content = new()
+        {
+            Type = ExternalItemContentType.Text,
+            Value = issueContent,
+        };
 
         try
         {
@@ -432,14 +447,14 @@ static async Task PushAllRepositoriesAsync(
 
         if (repository.Visibility == RepositoryVisibility.Public)
         {
-            // Get the HTML content for the repo
-            var response = await httpClient.GetAsync(repository.HtmlUrl);
-            if (response.IsSuccessStatusCode)
+            // Get the README for the repo
+            var readme = await repoService.GetReadmeAsync(repository);
+            if (readme != null)
             {
                 repoItem.Content = new()
                 {
-                    Type = ExternalItemContentType.Html,
-                    Value = await response.Content.ReadAsStringAsync(),
+                    Type = ExternalItemContentType.Text,
+                    Value = Markdig.Markdown.ToPlainText(readme.Content ?? string.Empty),
                 };
             }
         }
