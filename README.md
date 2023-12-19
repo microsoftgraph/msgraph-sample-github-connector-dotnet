@@ -28,7 +28,7 @@ The Microsoft Graph connector experiences that will be enabled in the sample inc
 
 ## Prerequisites
 
-- [.NET 7 SDK](https://dotnet.microsoft.com/download)
+- [.NET 8 SDK](https://dotnet.microsoft.com/download)
 - A Microsoft work or school account with the Global administrator role. If you don't have a Microsoft account, you can [sign up for the Microsoft 365 Developer Program](https://developer.microsoft.com/microsoft-365/dev-program) to get a free Microsoft 365 subscription.
 - A [GitHub account](https://github.com)
 
