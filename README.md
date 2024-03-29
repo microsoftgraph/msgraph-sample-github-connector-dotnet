@@ -191,6 +191,9 @@ The simplified admin experience in the Teams admin center communicates with the 
 
 The connection is now ready to [ingest items](#ingest-items).
 
+> [!IMPORTANT]
+> Connectors created via the simplified admin experience are configured to ingest GitHub issues. Attempting to ingest repositories with this connector will result in an error.
+
 ## Ingest items
 
 1. Use the command `dotnet run` to run the sample in interactive mode.
