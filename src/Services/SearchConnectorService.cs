@@ -125,8 +125,8 @@ public class SearchConnectorService
             Description = description,
             ActivitySettings = new()
             {
-                UrlToItemResolvers = new()
-                {
+                UrlToItemResolvers =
+                [
                     new ItemIdResolver
                     {
                         Priority = 1,
@@ -136,15 +136,15 @@ public class SearchConnectorService
                             UrlPattern = itemType == "issues" ?
                                 $"/{gitHubOwner}/{gitHubRepo}/issues/(?<issueId>[0-9]+)" :
                                 $"/{gitHubOwner}/(?<repo>.*)/",
-                            BaseUrls = new() { "https://github.com" },
+                            BaseUrls = ["https://github.com"],
                         },
                     },
-                },
+                ],
             },
             SearchSettings = new()
             {
-                SearchResultTemplates = new()
-                {
+                SearchResultTemplates =
+                [
                     new()
                     {
                         Id = itemType == "issues" ? "issueDisplay" : "repoDisplay",
@@ -154,7 +154,7 @@ public class SearchConnectorService
                             AdditionalData = await GetResultTemplateAsync(resultCardJsonFile),
                         },
                     },
-                },
+                ],
             },
         };
 
@@ -173,7 +173,7 @@ public class SearchConnectorService
         {
             if (useM365Properties)
             {
-                config.Headers.Add("GraphConnectors-Ticket", new[] { connectorTicket! });
+                config.Headers.Add("GraphConnectors-Ticket", [connectorTicket!]);
             }
         });
     }
@@ -280,7 +280,7 @@ public class SearchConnectorService
         });
     }
 
-    private async Task<Dictionary<string, object>> GetResultTemplateAsync(string resultCardJsonFile)
+    private static async Task<Dictionary<string, object>> GetResultTemplateAsync(string resultCardJsonFile)
     {
         var cardContents = await File.ReadAllTextAsync(resultCardJsonFile);
         return JsonSerializer.Deserialize<Dictionary<string, object>>(cardContents) ??

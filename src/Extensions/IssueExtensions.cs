@@ -25,18 +25,18 @@ public static class IssueExtensions
         return new ExternalItem
         {
             Id = issue.Number.ToString(),
-            Acl = new()
-            {
+            Acl =
+            [
                 new()
                 {
                     Type = AclType.Everyone,
                     Value = "everyone",
                     AccessType = AccessType.Grant,
                 },
-            },
+            ],
             Properties = issue.ToProperties(events),
-            Activities = new()
-            {
+            Activities =
+            [
                 new()
                 {
                     OdataType = "#microsoft.graph.externalConnectors.externalActivity",
@@ -44,7 +44,7 @@ public static class IssueExtensions
                     StartDateTime = issue.CreatedAt,
                     PerformedBy = await connectorService.GetIdentityForGitHubUserAsync(issue.User.Login),
                 },
-            },
+            ],
         };
     }
 
