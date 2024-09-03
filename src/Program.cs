@@ -75,7 +75,7 @@ static async Task ListenForSimplifiedAdminAsync(
                 Console.WriteLine("Received post");
 
                 // Parse the POST body
-                var changeNotifications = m365AppConfigService.DeserializePostBody(request.InputStream);
+                var changeNotifications = await M365AppConfigService.DeserializePostBody(request.InputStream);
 
                 // Ensure the body deserialized into the expected form
                 // and that the validation tokens are valid.

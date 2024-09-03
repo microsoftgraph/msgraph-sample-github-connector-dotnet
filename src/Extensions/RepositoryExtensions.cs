@@ -25,18 +25,18 @@ public static class RepositoryExtensions
         return new ExternalItem
         {
             Id = repository.Id.ToString(),
-            Acl = new()
-            {
+            Acl =
+            [
                 new()
                 {
                     Type = AclType.Everyone,
                     Value = "everyone",
                     AccessType = AccessType.Grant,
                 },
-            },
+            ],
             Properties = repository.ToProperties(events),
-            Activities = new()
-            {
+            Activities =
+            [
                 new()
                 {
                     OdataType = "#microsoft.graph.externalConnectors.externalActivity",
@@ -44,7 +44,7 @@ public static class RepositoryExtensions
                     StartDateTime = repository.CreatedAt,
                     PerformedBy = await connectorService.GetIdentityForGitHubUserAsync(repository.Owner.Login),
                 },
-            },
+            ],
         };
     }
 

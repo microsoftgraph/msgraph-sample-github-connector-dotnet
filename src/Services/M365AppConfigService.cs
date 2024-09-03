@@ -14,23 +14,26 @@ namespace GitHubConnector.Services;
 /// <summary>
 /// Contains methods for listening for configuration changes from a Microsoft 365 app.
 /// </summary>
-public class M365AppConfigService
+/// <remarks>
+/// Initializes a new instance of the <see cref="M365AppConfigService"/> class.
+/// </remarks>
+/// <param name="settings">The application settings.</param>
+public class M365AppConfigService(AppSettings settings)
 {
-    private readonly HttpListener listener;
-    private readonly int port;
-    private readonly string tenantId;
-    private readonly string clientId;
+    private readonly HttpListener listener = new();
+    private readonly int port = settings.PortNumber;
+    private readonly string tenantId = settings.TenantId ?? throw new ArgumentException("tenantId not set in app settings");
+    private readonly string clientId = settings.ClientId ?? throw new ArgumentException("clientId not set in app settings");
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="M365AppConfigService"/> class.
+    /// Deserializes the body of an incoming HTTP POST request.
     /// </summary>
-    /// <param name="settings">The application settings.</param>
-    public M365AppConfigService(AppSettings settings)
+    /// <param name="postBody">The input <see cref="Stream"/> to deserialize.</param>
+    /// <returns>An instance of the <see cref="Changes"/> class.</returns>
+    public static async Task<Changes?> DeserializePostBody(Stream postBody)
     {
-        tenantId = settings.TenantId ?? throw new ArgumentException("tenantId not set in app settings");
-        clientId = settings.ClientId ?? throw new ArgumentException("clientId not set in app settings");
-        port = settings.PortNumber;
-        listener = new();
+        var parseNode = await new JsonParseNodeFactory().GetRootParseNodeAsync("application/json", postBody);
+        return parseNode.GetObjectValue(Changes.CreateFromDiscriminatorValue);
     }
 
     /// <summary>
@@ -51,17 +54,6 @@ public class M365AppConfigService
     public void Stop()
     {
         listener.Stop();
-    }
-
-    /// <summary>
-    /// Deserializes the body of an incoming HTTP POST request.
-    /// </summary>
-    /// <param name="postBody">The input <see cref="Stream"/> to deserialize.</param>
-    /// <returns>An instance of the <see cref="Changes"/> class.</returns>
-    public Changes? DeserializePostBody(Stream postBody)
-    {
-        var parseNode = new JsonParseNodeFactory().GetRootParseNode("application/json", postBody);
-        return parseNode.GetObjectValue(Changes.CreateFromDiscriminatorValue);
     }
 
     /// <summary>
