@@ -20,6 +20,8 @@ namespace GitHubConnector.Services;
 /// <param name="settings">The application settings.</param>
 public class M365AppConfigService(AppSettings settings)
 {
+    private static readonly string GraphNotificationPublisherId = "0bf30f3b-4a52-48df-9a82-234910c4a086";
+
     private readonly HttpListener listener = new();
     private readonly int port = settings.PortNumber;
     private readonly string tenantId = settings.TenantId ?? throw new ArgumentException("tenantId not set in app settings");
@@ -79,7 +81,7 @@ public class M365AppConfigService(AppSettings settings)
         {
             try
             {
-                handler.ValidateToken(
+                var principal = handler.ValidateToken(
                     token,
                     new()
                     {
@@ -87,15 +89,23 @@ public class M365AppConfigService(AppSettings settings)
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
                         ValidateLifetime = true,
-                        ValidIssuers = new[]
-                        {
+                        ValidIssuers =
+                        [
                             $"https://login.microsoftonline.com/{tenantId}/v2.0",
                             $"https://sts.windows.net/{tenantId}/",
-                        },
+                        ],
                         ValidAudience = clientId,
                         IssuerSigningKeys = openIdConfig.SigningKeys,
                     },
                     out _);
+
+                var azpClaim = principal?.FindFirst("azp");
+                if (azpClaim != null && string.Compare(azpClaim.Value, GraphNotificationPublisherId, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    continue;
+                }
+
+                return false;
             }
             catch (SecurityTokenValidationException)
             {
