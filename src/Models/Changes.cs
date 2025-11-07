@@ -61,7 +61,7 @@ public class Changes : IAdditionalDataHolder, IParsable
             {
                 "value", n =>
                 {
-                    Value = n.GetCollectionOfObjectValues<ChangeNotification>(ChangeNotification.CreateFromDiscriminatorValue)?.ToList();
+                    Value = n.GetCollectionOfObjectValues(ChangeNotification.CreateFromDiscriminatorValue)?.ToList();
                 }
             },
         };

@@ -1,6 +1,6 @@
 .vs/
 bin/
 obj/
-*appsettings.Development.json
+*appsettings.Development*.json
 simplified-admin/manifest.json
 simplified-admin/*.zip

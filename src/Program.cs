@@ -14,7 +14,7 @@ using Octokit;
 // Pass this option to run in simplified admin mode.
 // This will setup a webhook on the port specified in appsettings.json to
 // receive signals from the Teams admin center.
-var useSimplifiedAdminOption = new Option<bool>(new[] { "--use-simplified-admin", "-u", })
+var useSimplifiedAdminOption = new Option<bool>(["--use-simplified-admin", "-u",])
 {
     Description = "Run the connector in simplified admin mode.",
     IsRequired = false,
@@ -260,7 +260,7 @@ static async Task<ExternalConnection?> SelectConnectionInteractivelyAsync(Search
     try
     {
         var response = await connectorService.GetConnectionsAsync();
-        var connections = response?.Value ?? new List<ExternalConnection>();
+        var connections = response?.Value ?? [];
         if (connections.Count <= 0)
         {
             Console.WriteLine("No connections exist. Please create a new connection.");
@@ -354,7 +354,7 @@ static async Task PushAllIssuesWithActivitiesAsync(
     Console.WriteLine($"Found {issues?.Count} issues to push.");
 
     using var httpClient = new HttpClient();
-    foreach (var issue in issues ?? new List<Issue>())
+    foreach (var issue in issues ?? [])
     {
         IReadOnlyList<TimelineEventInfo>? events = null;
         try
@@ -366,7 +366,7 @@ static async Task PushAllIssuesWithActivitiesAsync(
             Console.WriteLine($"Error getting events for issue #{issue.Number}: {ex.Message}");
         }
 
-        events = events ?? new List<TimelineEventInfo>();
+        events ??= [];
 
         IReadOnlyList<IssueComment>? comments = null;
         try
@@ -378,7 +378,7 @@ static async Task PushAllIssuesWithActivitiesAsync(
             Console.WriteLine($"Error getting comments for issue #{issue.Number}: {ex.Message}");
         }
 
-        comments = comments ?? new List<IssueComment>();
+        comments ??= [];
 
         var issueItem = await issue.ToExternalItem(events, connectorService);
 
@@ -431,7 +431,7 @@ static async Task PushAllRepositoriesAsync(
     Console.WriteLine($"Found {repositories?.Count} repos to push.");
 
     using var httpClient = new HttpClient();
-    foreach (var repository in repositories ?? new List<Repository>())
+    foreach (var repository in repositories ?? [])
     {
         IReadOnlyList<Activity>? events = null;
         try

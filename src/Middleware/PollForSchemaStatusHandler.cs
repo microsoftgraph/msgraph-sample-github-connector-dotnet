@@ -93,7 +93,8 @@ public partial class PollForSchemaStatusHandler(int delay = 60000) : DelegatingH
             // Use Graph SDK's parsers to deserialize the body
             var body = await response.Content.ReadAsStringAsync(cancellationToken);
             using var responseBody = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(body));
-            var parseNode = await ParseNodeFactoryRegistry.DefaultInstance.GetRootParseNodeAsync("application/json", responseBody, cancellationToken);
+            var parseNode = await ParseNodeFactoryRegistry.DefaultInstance
+                .GetRootParseNodeAsync("application/json", responseBody, cancellationToken);
             var operation = parseNode.GetObjectValue(ConnectionOperation.CreateFromDiscriminatorValue) ??
                 throw new ServiceException("Could not get operation from API.");
 

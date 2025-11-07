@@ -39,10 +39,10 @@ If you want to enable the [simplified admin experience in the Teams admin center
 - The [devtunnel CLI](https://learn.microsoft.com/azure/developer/dev-tunnels/get-started) or [ngrok](https://ngrok.com/).
 - [Custom Teams app uploading](https://learn.microsoft.com/microsoftteams/platform/concepts/build-and-test/prepare-your-o365-tenant#enable-custom-teams-apps-and-turn-on-custom-app-uploading) must be enabled in your Microsoft 365 tenant.
 
-## Register an app in Azure portal
+## Register an app in Microsoft Entra admin center
 
-1. Go to the [Azure Active Directory admin center](https://aad.portal.azure.com/) and sign in with an administrator account.
-1. In the left pane, select **Azure Active Directory**, and under **Manage**, select **App registrations**.
+1. Go to the [Microsoft Entra admin center](https://entra.microsoft.com/) and sign in with an administrator account.
+1. In the left pane, expand **Identity**, expand **Applications**, then select **App registrations**.
 1. Select **New registration**.
 1. Complete the Register an application form with the following values, and then select **Register**.
     - **Name**: `GitHub Connector`
@@ -54,8 +54,8 @@ If you want to enable the [simplified admin experience in the Teams admin center
 1. Remove the default **User.Read** permission under **Configured permissions** by selecting the ellipses (**...**) in its row and selecting **Remove permission**.
 1. Select **Add a permission**, and then select **Microsoft Graph**.
 1. Select **Application permissions**, and add the following permissions:
-    - ExternalConnection.ReadWrite.OwnedBy
-    - ExternalItem.ReadWrite.OwnedBy
+    - **ExternalConnection.ReadWrite.OwnedBy**
+    - **ExternalItem.ReadWrite.OwnedBy**
 
 1. Select **Grant admin consent for...**, and then select **Yes** when prompted.
 1. Select **Certificates** & secrets under **Manage**, and then select **New client secret**.

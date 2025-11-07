@@ -22,18 +22,18 @@ public class SearchConnectorService
     public static readonly Schema IssuesSchema = new()
     {
         BaseType = "microsoft.graph.externalItem",
-        Properties = new()
-        {
-            new() { Aliases = new() { "issueTitle" }, Name = "title", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true,  IsRefinable = false, Labels = new() { Label.Title } },
-            new() { Aliases = new() { "message" }, Name = "body", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false },
+        Properties =
+        [
+            new() { Aliases = ["issueTitle"], Name = "title", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true,  IsRefinable = false, Labels = [Label.Title] },
+            new() { Aliases = ["message"], Name = "body", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false },
             new() { Name = "assignees", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false },
             new() { Name = "labels", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false },
             new() { Name = "state", Type = PropertyType.String, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true },
-            new() { Name = "issueUrl", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.Url } },
-            new() { Name = "icon", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.IconUrl } },
-            new() { Name = "updatedAt", Type = PropertyType.DateTime, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true, Labels = new() { Label.LastModifiedDateTime } },
-            new() { Name = "lastModifiedBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.LastModifiedBy } },
-        },
+            new() { Name = "issueUrl", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = [Label.Url] },
+            new() { Name = "icon", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = [Label.IconUrl] },
+            new() { Name = "updatedAt", Type = PropertyType.DateTime, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true, Labels = [Label.LastModifiedDateTime] },
+            new() { Name = "lastModifiedBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = [Label.LastModifiedBy] },
+        ],
     };
 
     /// <summary>
@@ -42,18 +42,18 @@ public class SearchConnectorService
     public static readonly Schema ReposSchema = new()
     {
         BaseType = "microsoft.graph.externalItem",
-        Properties = new()
-        {
-            new() { Aliases = new() { "repoName" }, Name = "title", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.Title } },
+        Properties =
+        [
+            new() { Aliases = ["repoName"], Name = "title", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = [Label.Title] },
             new() { Name = "description", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false },
             new() { Name = "visibility", Type = PropertyType.String, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true },
-            new() { Name = "createdBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.CreatedBy } },
-            new() { Name = "updatedAt", Type = PropertyType.DateTime, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true, Labels = new() { Label.LastModifiedDateTime } },
-            new() { Name = "lastModifiedBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.LastModifiedBy } },
-            new() { Name = "repoUrl", Type = PropertyType.String, IsSearchable = true, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.Url } },
+            new() { Name = "createdBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = [Label.CreatedBy] },
+            new() { Name = "updatedAt", Type = PropertyType.DateTime, IsSearchable = false, IsQueryable = true, IsRetrievable = true, IsRefinable = true, Labels = [Label.LastModifiedDateTime] },
+            new() { Name = "lastModifiedBy", Type = PropertyType.String, IsSearchable = true, IsQueryable = true, IsRetrievable = true, IsRefinable = false, Labels = [Label.LastModifiedBy] },
+            new() { Name = "repoUrl", Type = PropertyType.String, IsSearchable = true, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = [Label.Url] },
             new() { Name = "userUrl", Type = PropertyType.String, IsSearchable = true, IsQueryable = false, IsRetrievable = true, IsRefinable = false },
-            new() { Name = "icon", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = new() { Label.IconUrl } },
-        },
+            new() { Name = "icon", Type = PropertyType.String, IsSearchable = false, IsQueryable = false, IsRetrievable = true, IsRefinable = false, Labels = [Label.IconUrl] },
+        ],
     };
 
     private readonly GraphServiceClient graphClient;
@@ -90,7 +90,7 @@ public class SearchConnectorService
             settings.TenantId, settings.ClientId, settings.ClientSecret);
 
         var authProvider = new AzureIdentityAuthenticationProvider(
-            credential, scopes: new[] { "https://graph.microsoft.com/.default" });
+            credential, scopes: ["https://graph.microsoft.com/.default"]);
 
         graphClient = new GraphServiceClient(httpClient, authProvider, "https://graph.microsoft.com/beta");
     }

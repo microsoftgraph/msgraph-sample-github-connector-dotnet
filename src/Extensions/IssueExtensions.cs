@@ -20,7 +20,9 @@ public static class IssueExtensions
     /// <param name="connectorService">An instance of the <see cref="SearchConnectorService"/> class.</param>
     /// <returns>An instance of <see cref="ExternalItem"/>.</returns>
     public static async Task<ExternalItem> ToExternalItem(
-        this Issue issue, IReadOnlyList<TimelineEventInfo>? events, SearchConnectorService connectorService)
+        this Issue issue,
+        IReadOnlyList<TimelineEventInfo>? events,
+        SearchConnectorService connectorService)
     {
         return new ExternalItem
         {
