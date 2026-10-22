@@ -7,6 +7,7 @@ using GitHubConnector.Middleware;
 using Microsoft.Graph;
 using Microsoft.Graph.External.Connections.Item.Items.Item.MicrosoftGraphExternalConnectorsAddActivities;
 using Microsoft.Graph.Models.ExternalConnectors;
+using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Authentication.Azure;
 
 namespace GitHubConnector.Services;
@@ -149,10 +150,7 @@ public class SearchConnectorService
                     {
                         Id = itemType == "issues" ? "issueDisplay" : "repoDisplay",
                         Priority = 1,
-                        Layout = new()
-                        {
-                            AdditionalData = await GetResultTemplateAsync(resultCardJsonFile),
-                        },
+                        Layout = await GetResultTemplateAsync(resultCardJsonFile),
                     },
                 ],
             },
@@ -280,10 +278,32 @@ public class SearchConnectorService
         });
     }
 
-    private static async Task<Dictionary<string, object>> GetResultTemplateAsync(string resultCardJsonFile)
+    private static async Task<UntypedNode> GetResultTemplateAsync(string resultCardJsonFile)
     {
         var cardContents = await File.ReadAllTextAsync(resultCardJsonFile);
-        return JsonSerializer.Deserialize<Dictionary<string, object>>(cardContents) ??
-            throw new Exception($"Could not deserialize contents of {resultCardJsonFile}");
+        using var cardJson = JsonDocument.Parse(cardContents);
+        return ToUntypedNode(cardJson.RootElement);
+    }
+
+    private static UntypedNode ToUntypedNode(JsonElement element)
+    {
+        return element.ValueKind switch
+        {
+            JsonValueKind.Object => new UntypedObject(element.EnumerateObject()
+                .ToDictionary(property => property.Name, property => ToUntypedNode(property.Value))),
+            JsonValueKind.Array => new UntypedArray(element.EnumerateArray().Select(ToUntypedNode)),
+            JsonValueKind.String => new UntypedString(element.GetString()!),
+            JsonValueKind.Number => element.TryGetInt32(out var intValue) ?
+                new UntypedInteger(intValue) :
+                element.TryGetInt64(out var longValue) ?
+                    new UntypedLong(longValue) :
+                    element.TryGetDecimal(out var decimalValue) ?
+                        new UntypedDecimal(decimalValue) :
+                        new UntypedDouble(element.GetDouble()),
+            JsonValueKind.True => new UntypedBoolean(true),
+            JsonValueKind.False => new UntypedBoolean(false),
+            JsonValueKind.Null => new UntypedNull(),
+            _ => throw new JsonException($"Unsupported JSON value: {element.ValueKind}"),
+        };
     }
 }
